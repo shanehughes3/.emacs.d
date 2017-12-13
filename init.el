@@ -113,6 +113,9 @@
   (global-set-key (kbd "C-c h o") 'helm-occur))
 
 
+(use-package org
+  :mode (("\\.org$" . org-mode)))
+
 ;; 80-column vertical rule
 (use-package fill-column-indicator
   :ensure t
