@@ -24,14 +24,14 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(fill-column-indicator use-package helm web-mode tide)))
+	(exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 150 :width normal)))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 180 :width normal)))))
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -118,7 +118,25 @@
   :ensure t
   :init
   (setq fci-rule-color "#444444"))
+;; enable on all modes except web-mode (due to bug:
+;; https://github.com/alpaker/Fill-Column-Indicator/issues/46 )
 (add-hook 'after-change-major-mode-hook
 		  (lambda () (if (string= major-mode "web-mode")
 						 (turn-off-fci-mode) (turn-on-fci-mode))))
 
+;; eslint setup
+(use-package flycheck
+  :init
+  :ensure t)
+(use-package exec-path-from-shell
+  :ensure t)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+;; (setq-default flycheck-disabled-checkers
+;; 			  (append flycheck-disabled-checkers
+;; 					  '(javascript-jshint)))
+;; (flycheck-add-mode flycheck-temp-prefix ".flycheck")
+;; (setq-default flycheck-disabled-checkers
+;; 			  (append flycheck-disabled-checkers
+;; 					  '(json-jsonlist)))
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
