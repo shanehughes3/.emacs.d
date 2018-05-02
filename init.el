@@ -1,5 +1,7 @@
 (require 'package)
 
+(setq c-default-style "linux")
+
 (add-to-list 'package-archives
          '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
@@ -13,6 +15,8 @@
   (package-install 'use-package))
 
 (require 'whitespace)
+(use-package ess
+  :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
