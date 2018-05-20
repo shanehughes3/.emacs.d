@@ -28,14 +28,14 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 180 :width normal)))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 140 :width normal)))))
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -73,6 +73,8 @@
 
 ;; web-mode setup
 ;;
+(use-package web-mode)
+
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -147,3 +149,8 @@
 ;; 					  '(json-jsonlist)))
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
+
+(use-package sublimity
+  :config (require 'sublimity)
+  (require 'sublimity-scroll)
+  (sublimity-mode 1))
