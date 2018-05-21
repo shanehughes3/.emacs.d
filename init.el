@@ -9,7 +9,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-         '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+         '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
          '("melpa" . "https://melpa.org/packages/") t)
 (when (< emacs-major-version 24)
@@ -21,6 +21,8 @@
   (package-install 'use-package))
 
 (require 'whitespace)
+(setq-default whitespace-style '(face indentation::tab indentation::space tab trailing))
+(setq-default whitespace-mode t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -32,7 +34,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -54,6 +56,8 @@
 (setq-default tab-width 4)
 (setq-default line-spacing 5)
 (global-linum-mode 1)
+(if window-system
+	(tool-bar-mode -1))
 
 ;;; remove trailing whitespace on save
 (add-hook 'local-write-file-hooks
@@ -111,7 +115,16 @@
 )
 (add-hook 'web-mode-hook  'custom-web-mode-hook)
 
+(use-package json-mode
+  :ensure t)
 
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;;; R engine
 (use-package ess
@@ -165,7 +178,8 @@
   :ensure t
   :config (require 'sublimity)
   (require 'sublimity-scroll)
-  (sublimity-mode 1))
+  (sublimity-mode 1)
+  (setq-default sublimity-auto-hscroll-mode 1))
 
 ;;; directory tree and associated fonts/icons
 (use-package all-the-icons
