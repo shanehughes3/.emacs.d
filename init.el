@@ -1,6 +1,12 @@
-(require 'package)
+;;; init.el --- Initialization file for Emacs
+;;; Commentary:
+;;; Code:
+;;; (this makes flycheck be quiet in this file)
 
-(setq c-default-style "linux")
+;;;;;;;;;;;;;;;
+;;; basic setup
+
+(require 'package)
 
 (add-to-list 'package-archives
          '("melpa-stable" . "http://stable.melpa.org/packages/") t)
@@ -15,8 +21,6 @@
   (package-install 'use-package))
 
 (require 'whitespace)
-(use-package ess
-  :ensure t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -51,28 +55,31 @@
 (setq-default line-spacing 5)
 (global-linum-mode 1)
 
-;; mac key bindings
+;;; remove trailing whitespace on save
+(add-hook 'local-write-file-hooks
+      (lambda ()
+        (delete-trailing-whitespace)
+        nil))
+
+;;; mac key bindings
 (when (eq system-type 'darwin)
   (setq mac-function-modifier 'control)
   (setq mac-command-modifier 'meta)
   (setq mac-right-option-modifier 'control)
   )
 
-;; melpa
+;;; melpa
 (when (>= emacs-major-version 24)
   (require 'package)
   (package-initialize)
   (add-to-list 'package-archives
            '("melpa" . "https://melpa.org/packages/") t)
   )
-;; run M-x package-refresh-contents
-;; then M-x package-install
-;; currently installed: web-mode tide
-;;
-;; to update: M-x package-list-packages [ret] U x
 
-;; web-mode setup
-;;
+;;;;;;;;;;;;
+;;; packages
+
+;;; web-mode & setup
 (use-package web-mode
   :ensure t)
 
@@ -104,12 +111,13 @@
 )
 (add-hook 'web-mode-hook  'custom-web-mode-hook)
 
-(add-hook 'local-write-file-hooks
-      (lambda ()
-        (delete-trailing-whitespace)
-        nil))
 
-;; helm
+
+;;; R engine
+(use-package ess
+  :ensure t)
+
+;;; helm
 (use-package helm
   :ensure t
   :config
@@ -124,7 +132,7 @@
   :ensure t
   :mode (("\\.org$" . org-mode)))
 
-;; 80-column vertical rule
+;;; 80-column vertical rule
 (use-package fill-column-indicator
   :ensure t
   :init
@@ -135,7 +143,7 @@
 		  (lambda () (if (string= major-mode "web-mode")
 						 (turn-off-fci-mode) (turn-on-fci-mode))))
 
-;; eslint setup
+;;; eslint (WIP)
 (use-package flycheck
   :init
   :ensure t)
@@ -152,16 +160,23 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
+;;; smooth scrolling
 (use-package sublimity
   :ensure t
   :config (require 'sublimity)
   (require 'sublimity-scroll)
   (sublimity-mode 1))
 
+;;; directory tree
 (use-package neotree
   :ensure t
   :config (require 'neotree)
   (global-set-key [f8] 'neotree-toggle))
+
+
+;;;;;;;;;;;;;;;;
+;;; other config
+(setq-default c-default-style "linux")
 
 (provide 'init)
 ;;; init.el ends here
