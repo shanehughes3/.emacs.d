@@ -32,7 +32,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -167,11 +167,15 @@
   (require 'sublimity-scroll)
   (sublimity-mode 1))
 
-;;; directory tree
+;;; directory tree and associated fonts/icons
+(use-package all-the-icons
+  :ensure t) ;;; you must run all-the-icons-install-fonts for this to work!
 (use-package neotree
   :ensure t
   :config (require 'neotree)
-  (global-set-key [f8] 'neotree-toggle))
+  (global-set-key [f8] 'neotree-toggle)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
 
 
 ;;;;;;;;;;;;;;;;
