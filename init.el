@@ -34,7 +34,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -85,26 +85,26 @@
 
 ;;; web-mode & setup
 (use-package web-mode
-  :ensure t)
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  ;;(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.s?css\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)))
 
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.s?css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
-
-(add-hook 'web-mode-hook
-      (lambda ()
-        ;; short circuit js mode and just do everything in jsx-mode
-        (if (equal web-mode-content-type "javascript")
-            (web-mode-set-content-type "jsx")
-          (message "now set to: %s" web-mode-content-type))))
+;; (add-hook 'web-mode-hook
+;;       (lambda ()
+;;         ;; short circuit js mode and just do everything in jsx-mode
+;;         (if (equal web-mode-content-type "javascript")
+;;             (web-mode-set-content-type "jsx")
+;;           (message "now set to: %s" web-mode-content-type))))
 
 (defun custom-web-mode-hook ()
   "Hooks for Web mode."
@@ -117,6 +117,10 @@
 
 (use-package json-mode
   :ensure t)
+
+(use-package js2-mode
+  :ensure t
+  :mode ("\\.js\\'" . js2-mode))
 
 (use-package markdown-mode
   :ensure t
@@ -149,7 +153,8 @@
 (use-package fill-column-indicator
   :ensure t
   :init
-  (setq fci-rule-color "#444444"))
+  (setq fci-rule-color "#444444")
+  (setq fci-rule-column 80))
 ;; enable on all modes except web-mode (due to bug:
 ;; https://github.com/alpaker/Fill-Column-Indicator/issues/46 )
 (add-hook 'after-change-major-mode-hook
@@ -195,6 +200,21 @@
 ;;;;;;;;;;;;;;;;
 ;;; other config
 (setq-default c-default-style "linux")
+
+
+;;;;;;;;;;;;;;;
+;;; keybindings
+
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (forward-line 1)
+  (yank)
+)
+(global-set-key (kbd "s-d") 'duplicate-line)
 
 (provide 'init)
 ;;; init.el ends here
