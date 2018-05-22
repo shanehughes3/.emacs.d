@@ -29,7 +29,12 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
+ '(git-gutter:added-sign "++")
+ '(git-gutter:deleted-sign "--")
+ '(git-gutter:modified-sign "==")
+ '(git-gutter:update-interval 2)
  '(inhibit-startup-screen t)
+ '(neo-vc-integration (quote (face)))
  '(package-selected-packages
    (quote
 	(git-gutter js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
