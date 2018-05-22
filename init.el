@@ -203,7 +203,7 @@
   (global-set-key [f8] 'neotree-toggle)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (custom-set-variables
-   '(new-vc-integration (quote (face)))))
+   '(neo-vc-integration (quote (face)))))
 
 ;; git change info
 (use-package git-gutter
