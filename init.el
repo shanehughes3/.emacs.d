@@ -42,8 +42,8 @@
  '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
  '(font-lock-builtin-face ((t (:foreground "#cc33ff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
- '(font-lock-constant-face ((t (:foreground "#00e6e6"))))
- '(font-lock-function-name-face ((t (:foreground "#e60000"))))
+ '(font-lock-constant-face ((t (:foreground "#33e6e6"))))
+ '(font-lock-function-name-face ((t (:foreground "#e63333"))))
  '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
  '(font-lock-string-face ((t (:foreground "LimeGreen")))))
 
@@ -201,7 +201,9 @@
   :ensure t
   :config (require 'neotree)
   (global-set-key [f8] 'neotree-toggle)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (custom-set-variables
+   '(new-vc-integration (quote (face)))))
 
 ;; git change info
 (use-package git-gutter
