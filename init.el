@@ -40,12 +40,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
- '(font-lock-builtin-face ((t (:foreground "#ff00ff"))))
- '(font-lock-builting-face ((t (:foreground "#ff00ff"))))
+ '(font-lock-builtin-face ((t (:foreground "#cc33ff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(font-lock-constant-face ((t (:foreground "#00e6e6"))))
- '(font-lock-function-name-face ((t (:foreground "#00cc44"))))
- '(font-lock-keyword-face ((t (:foreground "#e6e600"))))
+ '(font-lock-function-name-face ((t (:foreground "#e60000"))))
+ '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
  '(font-lock-string-face ((t (:foreground "LimeGreen")))))
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
