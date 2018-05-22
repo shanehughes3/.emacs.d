@@ -42,7 +42,7 @@
  '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
  '(font-lock-builtin-face ((t (:foreground "#ff00ff"))))
  '(font-lock-builting-face ((t (:foreground "#ff00ff"))))
- '(font-lock-comment-face ((t (:foreground "light gray"))))
+ '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(font-lock-constant-face ((t (:foreground "#00e6e6"))))
  '(font-lock-function-name-face ((t (:foreground "#00cc44"))))
  '(font-lock-keyword-face ((t (:foreground "#e6e600"))))
