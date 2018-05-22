@@ -20,9 +20,7 @@
 (when (require 'use-package nil 'noerror)
   (package-install 'use-package))
 
-(require 'whitespace)
-(setq-default whitespace-style '(face indentation::tab indentation::space tab trailing))
-(setq-default whitespace-mode t)
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -34,14 +32,21 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-	(js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(git-gutter js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal)))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
+ '(font-lock-builtin-face ((t (:foreground "#ff00ff"))))
+ '(font-lock-builting-face ((t (:foreground "#ff00ff"))))
+ '(font-lock-comment-face ((t (:foreground "light gray"))))
+ '(font-lock-constant-face ((t (:foreground "#00e6e6"))))
+ '(font-lock-function-name-face ((t (:foreground "#00cc44"))))
+ '(font-lock-keyword-face ((t (:foreground "#e6e600"))))
+ '(font-lock-string-face ((t (:foreground "LimeGreen")))))
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -82,6 +87,10 @@
 
 ;;;;;;;;;;;;
 ;;; packages
+
+(require 'whitespace)
+(setq-default whitespace-style '(face tabs tabs-mark trailing))
+(setq-default whitespace-mode t)
 
 ;;; web-mode & setup
 (use-package web-mode
@@ -195,6 +204,17 @@
   (global-set-key [f8] 'neotree-toggle)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
+;; git change info
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode +1)
+  (git-gutter:linum-setup)
+  (custom-set-variables
+   '(git-gutter:update-interval 2)
+   '(git-gutter:added-sign "++")
+   '(git-gutter:deleted-sign "--")
+   '(git-gutter:modified-sign "==")))
 
 
 ;;;;;;;;;;;;;;;;
