@@ -14,13 +14,11 @@
          '("melpa" . "https://melpa.org/packages/") t)
 (when (< emacs-major-version 24)
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-
+(setq load-prefer-newer t)
 (package-initialize)
 
 (when (require 'use-package nil 'noerror)
   (package-install 'use-package))
-
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -37,7 +35,7 @@
  '(neo-vc-integration (quote (face)))
  '(package-selected-packages
    (quote
-	(git-gutter js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+	(diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -76,9 +74,9 @@
 
 ;;; mac key bindings
 (when (eq system-type 'darwin)
-  (setq mac-function-modifier 'control)
-  (setq mac-command-modifier 'meta)
-  (setq mac-right-option-modifier 'control)
+  (setq-default mac-function-modifier 'control)
+  (setq-default mac-command-modifier 'meta)
+  (setq-default mac-right-option-modifier 'control)
   )
 
 ;;; melpa
@@ -121,7 +119,7 @@
 
 (defun custom-web-mode-hook ()
   "Hooks for Web mode."
-  (setq web-mode-enable-auto-quoting nil)
+  (setq-default web-mode-enable-auto-quoting nil)
   (setq-default indent-tabs-mode t)
   (web-mode-use-tabs)
   (setq-default tab-width 4)
@@ -141,7 +139,7 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq-default markdown-command "multimarkdown"))
 
 ;;; R engine
 (use-package ess
@@ -166,8 +164,8 @@
 (use-package fill-column-indicator
   :ensure t
   :init
-  (setq fci-rule-color "#444444")
-  (setq fci-rule-column 80))
+  (setq-default fci-rule-color "#444444")
+  (setq-default fci-rule-column 80))
 ;; enable on all modes except web-mode (due to bug:
 ;; https://github.com/alpaker/Fill-Column-Indicator/issues/46 )
 (add-hook 'after-change-major-mode-hook
@@ -211,16 +209,24 @@
    '(neo-vc-integration (quote (face)))))
 
 ;; git change info
-(use-package git-gutter
+;; (use-package git-gutter
+;;   :ensure t
+;;   :config
+;;   (global-git-gutter-mode +1)
+;;   (git-gutter:linum-setup)
+;;   (custom-set-variables
+;;    '(git-gutter:update-interval 2)
+;;    '(git-gutter:added-sign "++")
+;;    '(git-gutter:deleted-sign "--")
+;;    '(git-gutter:modified-sign "==")))
+(use-package diff-hl-mode
+  :ensure t)
+
+(use-package auto-compile
   :ensure t
   :config
-  (global-git-gutter-mode +1)
-  (git-gutter:linum-setup)
-  (custom-set-variables
-   '(git-gutter:update-interval 2)
-   '(git-gutter:added-sign "++")
-   '(git-gutter:deleted-sign "--")
-   '(git-gutter:modified-sign "==")))
+  (auto-compile-on-load-mode)
+  (auto-compile-on-save-mode))
 
 
 ;;;;;;;;;;;;;;;;
