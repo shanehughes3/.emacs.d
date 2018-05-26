@@ -219,8 +219,8 @@
 ;;    '(git-gutter:added-sign "++")
 ;;    '(git-gutter:deleted-sign "--")
 ;;    '(git-gutter:modified-sign "==")))
-(use-package diff-hl-mode
-  :ensure t)
+;; (use-package diff-hl-mode
+;;   :ensure t)
 
 (use-package auto-compile
   :ensure t
