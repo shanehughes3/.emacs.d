@@ -161,16 +161,16 @@
   :mode (("\\.org$" . org-mode)))
 
 ;;; 80-column vertical rule
-(use-package fill-column-indicator
-  :ensure t
-  :init
-  (setq-default fci-rule-color "#444444")
-  (setq-default fci-rule-column 80))
-;; enable on all modes except web-mode (due to bug:
-;; https://github.com/alpaker/Fill-Column-Indicator/issues/46 )
-(add-hook 'after-change-major-mode-hook
-		  (lambda () (if (string= major-mode "web-mode")
-						 (turn-off-fci-mode) (turn-on-fci-mode))))
+;; (use-package fill-column-indicator
+;;   :ensure t
+;;   :init
+;;   (setq-default fci-rule-color "#444444")
+;;   (setq-default fci-rule-column 80))
+;; ;; enable on all modes except web-mode (due to bug:
+;; ;; https://github.com/alpaker/Fill-Column-Indicator/issues/46 )
+;; (add-hook 'after-change-major-mode-hook
+;; 		  (lambda () (if (string= major-mode "web-mode")
+;; 						 (turn-off-fci-mode) (turn-on-fci-mode))))
 
 ;;; eslint (WIP)
 (use-package flycheck
