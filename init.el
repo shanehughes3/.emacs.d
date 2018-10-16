@@ -46,7 +46,7 @@
  '(font-lock-builtin-face ((t (:foreground "#cc33ff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(font-lock-constant-face ((t (:foreground "#33e6e6"))))
- '(font-lock-function-name-face ((t (:foreground "#e63333"))))
+ '(font-lock-function-name-face ((t (:foreground "#d34747"))))
  '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
  '(font-lock-string-face ((t (:foreground "LimeGreen")))))
 
@@ -133,8 +133,10 @@
   (setq-default web-mode-enable-auto-quoting nil)
   (setq-default indent-tabs-mode t)
   (web-mode-use-tabs)
-  (setq-default tab-width 4)
-  (setq-default c-basic-offset 4))
+  (setq tab-width 4)
+  (setq web-mode-code-indent-offset 4)
+  (setq c-basic-offset 4)
+  (set-face-attribute 'web-mode-variable-name-face nil :foreground "#c678dd"))
 (add-hook 'web-mode-hook 'custom-web-mode-hook)
 
 (use-package json-mode
@@ -189,10 +191,27 @@
 ;;; eslint (WIP)
 (use-package flycheck
   :init
-  :ensure t)
+  :ensure t
+  :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (setq-default flycheck-disabled-checkers '(javascript-jshint)))
 (use-package exec-path-from-shell
   :ensure t)
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; use local eslint from node_modules before global
+;; http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable
+(defun my/use-eslint-from-node-modules ()
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
+
 ;; (setq-default flycheck-disabled-checkers
 ;; 			  (append flycheck-disabled-checkers
 ;; 					  '(javascript-jshint)))
