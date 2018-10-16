@@ -35,7 +35,7 @@
  '(neo-vc-integration (quote (face)))
  '(package-selected-packages
    (quote
-	(diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+    (diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -65,6 +65,7 @@
 (global-linum-mode 1)
 (if window-system
 	(tool-bar-mode -1))
+(setq-default c-basic-offset 8 tab-width 8 indent-tabs-mode nil)
 
 ;;; remove trailing whitespace on save
 (add-hook 'local-write-file-hooks
@@ -79,6 +80,11 @@
   (setq-default mac-right-option-modifier 'control)
   )
 
+;; show man page on f1
+(global-set-key [(f1)] (lambda()
+                         (interactive)
+                         (manual-entry (current-word))))
+
 ;;; melpa
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -87,12 +93,17 @@
            '("melpa" . "https://melpa.org/packages/") t)
   )
 
+;;;;;;;;;;;;;;;;
+;;; other config
+(setq-default c-default-style "linux")
+
 ;;;;;;;;;;;;
 ;;; packages
 
 (require 'whitespace)
-(setq-default whitespace-style '(face tabs tabs-mark trailing))
-(setq-default whitespace-mode t)
+(setq-default whitespace-style '(face tabs tabs-mark trailing lines))
+(setq-default whitespace-line-column 78)
+(setq-default whitespace-mode 1)
 
 ;;; web-mode & setup
 (use-package web-mode
@@ -106,7 +117,7 @@
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  ;;(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.s?css\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode)))
 
@@ -114,7 +125,7 @@
 ;;       (lambda ()
 ;;         ;; short circuit js mode and just do everything in jsx-mode
 ;;         (if (equal web-mode-content-type "javascript")
-;;             (web-mode-set-content-type "jsx")
+;;  n           (web-mode-set-content-type "jsx")
 ;;           (message "now set to: %s" web-mode-content-type))))
 
 (defun custom-web-mode-hook ()
@@ -123,15 +134,18 @@
   (setq-default indent-tabs-mode t)
   (web-mode-use-tabs)
   (setq-default tab-width 4)
-)
-(add-hook 'web-mode-hook  'custom-web-mode-hook)
+  (setq-default c-basic-offset 4))
+(add-hook 'web-mode-hook 'custom-web-mode-hook)
 
 (use-package json-mode
   :ensure t)
 
-(use-package js2-mode
-  :ensure t
-  :mode ("\\.js\\'" . js2-mode))
+;; (use-package js2-mode
+;;   :ensure t
+;;   :mode ("\\.js\\'" . js2-mode)
+;;   :config
+;;   (setq-default js2-basic-offset 4)
+;;   (setq-default indent-tabs-mode t))
 
 (use-package markdown-mode
   :ensure t
@@ -227,11 +241,6 @@
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
-
-
-;;;;;;;;;;;;;;;;
-;;; other config
-(setq-default c-default-style "linux")
 
 
 ;;;;;;;;;;;;;;;
