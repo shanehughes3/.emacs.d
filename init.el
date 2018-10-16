@@ -42,13 +42,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 130 :width normal))))
+ '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 150 :width normal))))
  '(font-lock-builtin-face ((t (:foreground "#cc33ff"))))
  '(font-lock-comment-face ((t (:foreground "#777777"))))
  '(font-lock-constant-face ((t (:foreground "#33e6e6"))))
  '(font-lock-function-name-face ((t (:foreground "#d34747"))))
  '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
- '(font-lock-string-face ((t (:foreground "LimeGreen")))))
+ '(font-lock-string-face ((t (:foreground "LimeGreen"))))
+ '(font-lock-negation-char-face ((t (:foreground "Red")))))
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -141,6 +142,13 @@
 
 (use-package json-mode
   :ensure t)
+(add-hook 'json-mode-hook
+	  (lambda ()
+	    (make-local-variable 'js-indent-level)
+	    (setq indent-tabs-mode t
+			  standard-indent 4
+			  js-indent-level 4
+			  tab-width 4)))
 
 ;; (use-package js2-mode
 ;;   :ensure t
