@@ -35,7 +35,7 @@
  '(neo-vc-integration (quote (face)))
  '(package-selected-packages
    (quote
-    (diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
+    (company-tern auto-complete-mode auto-complete diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -48,8 +48,11 @@
  '(font-lock-constant-face ((t (:foreground "#33e6e6"))))
  '(font-lock-function-name-face ((t (:foreground "#d34747"))))
  '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
- '(font-lock-string-face ((t (:foreground "LimeGreen"))))
- '(font-lock-negation-char-face ((t (:foreground "Red")))))
+ '(font-lock-negation-char-face ((t (:foreground "Red"))))
+ '(font-lock-string-face ((t (:foreground "LimeGreen")))))
+
+(set-face-attribute 'markdown-pre-face nil :family "Ubuntu Mono")
+(set-face-attribute 'markdown-inline-code-face nil :family "Ubuntu Mono")
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -106,6 +109,16 @@
 (setq-default whitespace-line-column 78)
 (setq-default whitespace-mode 1)
 
+
+;;; autocomplete
+(use-package company
+  :ensure t)
+(use-package company-tern
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-tern)
+  (setq tern-command (append tern-command '("--no-port-file"))))
+
 ;;; web-mode & setup
 (use-package web-mode
   :ensure t
@@ -137,7 +150,9 @@
   (setq tab-width 4)
   (setq web-mode-code-indent-offset 4)
   (setq c-basic-offset 4)
-  (set-face-attribute 'web-mode-variable-name-face nil :foreground "#c678dd"))
+  (set-face-attribute 'web-mode-variable-name-face nil :foreground "#c678dd")
+  (tern-mode)
+  (company-mode))
 (add-hook 'web-mode-hook 'custom-web-mode-hook)
 
 (use-package json-mode
@@ -241,6 +256,8 @@
 ;;; directory tree and associated fonts/icons
 (use-package all-the-icons
   :ensure t) ;;; you must run all-the-icons-install-fonts for this to work!
+
+
 (use-package neotree
   :ensure t
   :config (require 'neotree)
@@ -268,6 +285,8 @@
   :config
   (auto-compile-on-load-mode)
   (auto-compile-on-save-mode))
+
+
 
 
 ;;;;;;;;;;;;;;;
