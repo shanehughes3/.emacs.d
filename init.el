@@ -51,8 +51,8 @@
  '(font-lock-negation-char-face ((t (:foreground "Red"))))
  '(font-lock-string-face ((t (:foreground "LimeGreen")))))
 
-(set-face-attribute 'markdown-pre-face nil :family "Ubuntu Mono")
-(set-face-attribute 'markdown-inline-code-face nil :family "Ubuntu Mono")
+;; (set-face-attribute 'markdown-pre-face nil :family "Ubuntu Mono")
+;; (set-face-attribute 'markdown-inline-code-face nil :family "Ubuntu Mono")
 
 ;;(add-to-list 'default-frame-alist '(font . "Ubuntu Mono"))
 ;;(set-face-attribute 'default t :font "Ubuntu Mono")
@@ -62,6 +62,8 @@
 ;;(set-frame-font "Ubuntu Mono" nil t)
 ;;(tool-bar-mode 0)
 (column-number-mode 1)
+
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 
 (setq-default indent-tabs-mode t)
 (setq-default tab-width 4)
@@ -80,9 +82,8 @@
 ;;; mac key bindings
 (when (eq system-type 'darwin)
   (setq-default mac-function-modifier 'control)
-  (setq-default mac-command-modifier 'meta)
-  (setq-default mac-right-option-modifier 'control)
-  )
+  (setq-default mac-command-modifier 'super)
+  (setq-default mac-right-option-modifier 'control))
 
 ;; show man page on f1
 (global-set-key [(f1)] (lambda()
@@ -152,7 +153,8 @@
   (setq c-basic-offset 4)
   (set-face-attribute 'web-mode-variable-name-face nil :foreground "#c678dd")
   (tern-mode)
-  (company-mode))
+  (company-mode)
+  (add-to-list 'company-dabbrev-code-modes 'web-mode))
 (add-hook 'web-mode-hook 'custom-web-mode-hook)
 
 (use-package json-mode
@@ -178,7 +180,17 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq-default markdown-command "multimarkdown"))
+  :init (setq-default markdown-command "markdown")
+  :config
+  (set-face-attribute 'markdown-pre-face nil :family "Ubuntu Mono")
+  (set-face-attribute 'markdown-inline-code-face nil :family "Ubuntu Mono"))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;;; R engine
 (use-package ess
@@ -264,7 +276,23 @@
   (global-set-key [f8] 'neotree-toggle)
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (custom-set-variables
-   '(neo-vc-integration (quote (face)))))
+   '(neo-vc-integration (quote (face))))
+  (setq projectile-switch-project-action 'neotree-projectile-action))
+
+
+;; (defun neotree-project-dir ()
+;;   "Open NeoTree using the git root."
+;;   (interactive)
+;;   (let ((project-dir (projectile-project-root))
+;;         (file-name (buffer-file-name)))
+;;     (neotree-toggle)
+;;     (if project-dir
+;;         (if (neo-global--window-exists-p)
+;;             (progn
+;;               (neotree-dir project-dir)
+;;               (neotree-find file-name)))
+;;       (message "Could not find git project root."))))
+;; (global-set-key [f8] 'neotree-project-dir)
 
 ;; git change info
 ;; (use-package git-gutter
