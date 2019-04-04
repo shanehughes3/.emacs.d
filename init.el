@@ -26,7 +26,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes (quote (tango-dark)))
  '(git-gutter:added-sign "++")
  '(git-gutter:deleted-sign "--")
  '(git-gutter:modified-sign "==")
@@ -37,19 +36,24 @@
    (quote
     (company-tern auto-complete-mode auto-complete diff-hl-mode git-gutter auto-compile js2-mode ess markdown-mode json-mode all-the-icons neotree sublimity exec-path-from-shell flycheck fill-column-indicator use-package helm web-mode tide)))
  '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "Ubuntu Mono" :foundry "nil" :slant normal :weight normal :height 150 :width normal))))
- '(font-lock-builtin-face ((t (:foreground "#cc33ff"))))
- '(font-lock-comment-face ((t (:foreground "#777777"))))
- '(font-lock-constant-face ((t (:foreground "#33e6e6"))))
- '(font-lock-function-name-face ((t (:foreground "#d34747"))))
- '(font-lock-keyword-face ((t (:foreground "#e68a00"))))
- '(font-lock-negation-char-face ((t (:foreground "Red"))))
- '(font-lock-string-face ((t (:foreground "LimeGreen")))))
+
+(set-face-attribute 'default nil :family "Ubuntu Mono" :foundry "nil" :height 150)
+(set-face-attribute 'font-lock-builtin-face nil :foreground "#b58900")
+;;(set-face-attribute 'font-lock-comment-delimiters-face nil :foreground "#7f99a3")
+(set-face-attribute 'font-lock-comment-face nil :foreground "#47595e") ;; dark grey
+(set-face-attribute 'font-lock-constant-face nil :foreground "#2aa198") ;; cyan
+(set-face-attribute 'font-lock-doc-face nil :foreground "#859900") ;; green
+(set-face-attribute 'font-lock-function-name-face nil :foreground "#b58900") ;; yellow
+(set-face-attribute 'font-lock-keyword-face nil :foreground "#268bd2") ;; blue
+(set-face-attribute 'font-lock-negation-char-face nil :foreground "#f42a27") ;; bright red
+(set-face-attribute 'font-lock-preprocessor-face nil :foreground "#cb4b16") ;; orange
+(set-face-attribute 'font-lock-string-face nil :foreground "#859900") ;; green
+(set-face-attribute 'font-lock-type-face nil :foreground "#6c71c4") ;; violet
+(set-face-attribute 'font-lock-variable-name-face nil :foreground "#d33682") ;; magenta
+(set-face-attribute 'font-lock-warning-face nil :foreground "#f42a27") ;; bright red
+(add-to-list 'default-frame-alist '(background-color . "#101c26")) ;; blackish
+(add-to-list 'default-frame-alist '(foreground-color . "#93a1a1")) ;; lightish
+
 
 ;; (set-face-attribute 'markdown-pre-face nil :family "Ubuntu Mono")
 ;; (set-face-attribute 'markdown-inline-code-face nil :family "Ubuntu Mono")
@@ -151,7 +155,7 @@
   (setq tab-width 4)
   (setq web-mode-code-indent-offset 4)
   (setq c-basic-offset 4)
-  (set-face-attribute 'web-mode-variable-name-face nil :foreground "#c678dd")
+;;  (set-face-attribute 'web-mode-variable-name-face nil :foreground "#b58900")
   (tern-mode)
   (company-mode)
   (add-to-list 'company-dabbrev-code-modes 'web-mode))
@@ -231,7 +235,11 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (setq-default flycheck-disabled-checkers '(javascript-jshint)))
 (use-package exec-path-from-shell
-  :ensure t)
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+  (add-to-list 'exec-path "~/.nvm/versions/node/v11.4.0/bin"))
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;; use local eslint from node_modules before global
@@ -315,6 +323,10 @@
   (auto-compile-on-save-mode))
 
 
+(autoload 'octave-mode "octave-mod" nil t)
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+
 
 
 ;;;;;;;;;;;;;;;
@@ -333,3 +345,9 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
